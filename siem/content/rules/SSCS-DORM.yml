@@ -1,0 +1,18 @@
+title: SSCS-DORM Dormant package wakes up
+id: 7f2b42de-08cb-4c58-9504-00000000000d
+status: experimental
+description: Релиз после >=180 дней молчания при истории >=2 релизов.
+logsource:
+  product: opensearch
+  service: sscs
+detection:
+  selection:
+    event.action: package.release
+    sscs.release.dormant_days|gte: 180
+    sscs.release.history_count|gte: 2
+  condition: selection
+level: medium
+tags: [sscs, supply-chain, ctx]
+falsepositives: [Плановый выпуск после длительного перерыва]
+---
+# dormant_days/history_count рассчитываются SIEM transform до правила, не агентом.

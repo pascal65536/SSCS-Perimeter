@@ -1,0 +1,17 @@
+title: SSCS-001 Typosquatting near reference package
+id: 7f2b42de-08cb-4c58-9504-000000000001
+status: stable
+description: Пакет создан с enrichment-расстоянием Левенштейна <= 2 до reference-имени.
+logsource:
+  product: opensearch
+  service: sscs
+detection:
+  selection:
+    event.action: package.created
+    sscs.created.levenshtein_hits|exists: true
+  condition: selection
+level: high
+tags: [sscs, supply-chain, initial-access]
+falsepositives: [Легитимное созвучное имя пакета]
+---
+# Порог расстояния применяется collector'ом до записи события; SIEM не пересчитывает строки.

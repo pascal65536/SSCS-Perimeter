@@ -1,0 +1,20 @@
+title: SSCS-004 Pull request merged without review
+id: 7f2b42de-08cb-4c58-9504-000000000004
+status: stable
+description: PR слит без ревью другим пользователем; self-merge исключён для снижения FP.
+logsource:
+  product: opensearch
+  service: sscs
+detection:
+  selection:
+    event.action: repo.pull_request
+    sscs.pr.review_count: 0
+    sscs.pr.self_merge: false
+  merged:
+    sscs.pr.merged_at|exists: true
+  condition: selection and merged
+level: informational
+tags: [sscs, supply-chain]
+falsepositives: [Автоматизированный merge доверенной команды]
+---
+# Информационная находка участвует в SSCS-CHAIN, но самостоятельно не создаёт critical-алерт.

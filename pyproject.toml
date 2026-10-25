@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sscs-perimeter"
+version = "1.2.0"
+description = "Динамический периметр зависимостей и мониторинг supply-chain телеметрии"
+requires-python = ">=3.11"
+dependencies = ["PyQt6>=6.6,<7", "opensearch-py>=2.7,<4"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9", "coverage>=7,<8"]
+
+[project.gui-scripts]
+sscs-gui = "gui.app:main"
+
+[project.scripts]
+sscs-perimeter = "perimeter.cli:main"
+sscs-settings = "settings_manager.cli:main"
+sscs-collector = "collector.cli:main"
+sscs-collector-live = "collector.service:main"
+sscs-github-webhook = "collector.webhook:main"
+sscs-spool = "spool.cli:main"
+sscs-siem-provision = "siem.provision:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["analytics*", "collector*", "perimeter*", "settings_manager*", "spool*", "siem*", "gui*", "storage*"]
+
+[tool.setuptools.package-data]
+gui = ["demo_snapshot.json"]
+siem = ["content/*", "content/rules/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "collector/tests"]
+pythonpath = ["."]
+addopts = "-ra"

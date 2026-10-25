@@ -1,0 +1,16 @@
+title: SSCS-003 New contributor touches critical files
+id: 7f2b42de-08cb-4c58-9504-000000000003
+status: stable
+description: PR нового контрибьютора затрагивает setup.py, pyproject.toml, __init__.py или workflow.
+logsource:
+  product: opensearch
+  service: sscs
+detection:
+  selection:
+    event.action: repo.pull_request
+    sscs.pr.author_is_new: true
+    sscs.pr.touches_critical: true
+  condition: selection
+level: high
+tags: [sscs, supply-chain, persistence]
+falsepositives: [Первый легитимный PR нового участника]

@@ -1,0 +1,24 @@
+title: SSCS-006 Suspicious maintainer history
+id: 7f2b42de-08cb-4c58-9504-000000000006
+status: stable
+description: Молодой аккаунт, мало подписчиков или серия публикаций при подозрительном профиле.
+logsource:
+  product: opensearch
+  service: sscs
+detection:
+  young:
+    sscs.user.account_is_young: true
+  followers:
+    sscs.user.followers:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+  series:
+    sscs.user.package_series_count|gte: 3
+  condition: young or followers or series
+level: high
+tags: [sscs, supply-chain, account-compromise]
+falsepositives: [Новый легитимный разработчик]
